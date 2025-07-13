@@ -1,6 +1,6 @@
 # x
 
-Force a language model type your bash commands for you
+Force a language model to type your bash commands for you
 
 - considers your current shell, OS, and environment</sub>
 - always shows confirmation before executing commands
