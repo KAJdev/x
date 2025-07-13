@@ -6,11 +6,14 @@ System context:
 
 Rules:
 - Return ONLY the command, no explanations or markdown
-- Make sure the command is safe and appropriate
 - Use the user's current shell and environment
-- If creating files, use appropriate paths
-- This will be executed directly: no explanations, no markdown
-- For SSH keys, use standard locations like ~/.ssh/";
+- This will be executed directly: no explanations or markdown wrapping
+- Do not use any special characters that would require escaping
+- Do not include any comments or explanations
+- Do not use any backticks or code blocks
+- Do not use any special formatting
+- Do not use any quotes around the command
+- the string returned will be DIRECTLY executed. it MUST BE VALID SHELL SYNTAX WITH NO MARKDOWN";
 
 const SYSTEM_CONTEXT_TEMPLATE: &str = "\
 Shell: {shell}
