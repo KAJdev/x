@@ -87,6 +87,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+      pull-requests: read
     
     steps:
     - name: Checkout code
@@ -124,7 +127,7 @@ jobs:
       run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         name: Release ${{ steps.version.outputs.VERSION }}
         draft: false
@@ -153,8 +156,7 @@ jobs:
           ### What's Changed
           
           See the commit history for detailed changes in this release.
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
   test-binaries:
     name: Test Binary ${{ matrix.target }}
