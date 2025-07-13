@@ -1,4 +1,6 @@
-# x - Force a language model type your bash commands for you
+# x
+
+Force a language model type your bash commands for you
 
 - 🎯 **Context-Aware**: considers your current shell, OS, and environment because i write good software
 - 🔒 **Safe**: always shows confirmation before executing commands, dont you even worry
@@ -10,8 +12,8 @@
 ### Quick Install
 
 ```bash
-# Clone and run the installer
-git clone <your-repo>
+# clone and run the installer
+git clone https://github.com/KAJdev/x
 cd x
 chmod +x install.sh
 ./install.sh
@@ -20,12 +22,12 @@ chmod +x install.sh
 ### Manual Install
 
 ```bash
-# Clone and build
-git clone <your-repo>
+# clone and build
+git clone https://github.com/KAJdev/x
 cd x
 cargo build --release
 
-# Add to PATH (optional)
+# add to PATH (optional)
 cp target/release/x /usr/local/bin/
 ```
 
@@ -34,10 +36,10 @@ cp target/release/x /usr/local/bin/
 Configure your LLM provider before first use:
 
 ```bash
-# Interactive setup (recommended)
+# interactive setup (recommended)
 x --config
 
-# Or specify directly
+# or specify directly
 x --config --provider openai --api-key your-api-key-here
 x --config --provider claude --api-key your-api-key-here
 ```
@@ -47,27 +49,22 @@ x --config --provider claude --api-key your-api-key-here
 Use natural language to describe what you want to do:
 
 ```bash
-# SSH key generation
-x generate a new ssh key for me, dog
-
-# File operations
+# file operations
 x create a new directory called my-project and cd into it, slave
 
-# Git operations
+# git operations
 x create a new git repository and make initial commit, dont make me wait...
 
-# System management
+# system management
 x HEY YOU! check disk usage for all mounted drives!!
 
-# Package management
+# package management
 x install docker on ubuntu or else
-
-# And much more!
 ```
 
 ## How it Works
 
-do you really care? you are here because you are lazy.
+Do you really care? You are here because you are lazy.
 
 ## Configuration
 
@@ -82,15 +79,6 @@ Example config:
 provider = "OpenAI"  # or "Claude"
 api_key = "your-api-key-here"
 ```
-
-## Safety
-
-The tool will always:
-
-- Show you the generated command before execution
-- Ask for your confirmation
-- Display the command output
-- Never execute commands without your explicit approval
 
 ## License
 
