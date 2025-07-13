@@ -11,7 +11,7 @@
 
 ```bash
 # Clone and run the installer
-git clone <your-repo>
+git clone https://github.com/KAJdev/x
 cd x
 chmod +x install.sh
 ./install.sh
@@ -21,7 +21,7 @@ chmod +x install.sh
 
 ```bash
 # Clone and build
-git clone <your-repo>
+git clone https://github.com/KAJdev/x
 cd x
 cargo build --release
 
