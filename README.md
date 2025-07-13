@@ -1,4 +1,6 @@
-# x - Force a language model type your bash commands for you
+# x
+
+Force a language model type your bash commands for you
 
 - 🎯 **Context-Aware**: considers your current shell, OS, and environment because i write good software
 - 🔒 **Safe**: always shows confirmation before executing commands, dont you even worry
