@@ -1,4 +1,5 @@
 use crate::config::{Config, LlmProvider};
+use crate::prompts::{generate_system_context, generate_system_prompt};
 use crate::spinner::StreamingSpinner;
 use anyhow::Result;
 use futures_util::StreamExt;
@@ -14,21 +15,7 @@ pub async fn generate_command(config: &Config, user_input: &[String]) -> Result<
     spinner.update_text("");
 
     let system_context = get_system_context().await?;
-    let system_prompt = format!(
-        "You are a helpful CLI assistant. Generate a single shell command for the following user request.
-
-System context:
-{}
-
-Rules:
-- Return ONLY the command, no explanations or markdown
-- Make sure the command is safe and appropriate
-- Use the user's current shell and environment
-- If creating files, use appropriate paths
-- remember, this will be BE DIRECTLY executed. no explanations, no markdown
-- For SSH keys, use standard locations like ~/.ssh/",
-        system_context
-    );
+    let system_prompt = generate_system_prompt(&system_context);
 
     let command = match config.provider {
         LlmProvider::OpenAI => {
@@ -185,11 +172,5 @@ async fn get_system_context() -> Result<String> {
         .unwrap_or_else(|_| "unknown".to_string());
     let os = env::consts::OS;
 
-    Ok(format!(
-        "Shell: {}
-Home: {}
-Current directory: {}
-OS: {}",
-        shell, home, pwd, os
-    ))
+    Ok(generate_system_context(&shell, &home, &pwd, &os))
 }

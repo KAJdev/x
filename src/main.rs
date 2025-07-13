@@ -2,6 +2,7 @@ mod cli;
 mod config;
 mod executor;
 mod llm;
+mod prompts;
 mod spinner;
 
 use anyhow::Result;
