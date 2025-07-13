@@ -83,27 +83,15 @@ async fn generate_with_openai_stream(
     while let Some(chunk) = stream.next().await {
         let chunk = chunk?;
         let chunk_str = String::from_utf8_lossy(&chunk);
-        buffer.push_str(&chunk_str);
 
-        // Process complete lines from the buffer
-        let mut lines_to_process = Vec::new();
-        while let Some(line_end) = buffer.find('\n') {
-            let line = buffer[..line_end].trim().to_string();
-            lines_to_process.push(line);
-            buffer = buffer[line_end + 1..].to_string();
-        }
-
-        for line in lines_to_process {
-            if line.starts_with("data: ") && !line.contains("[DONE]") {
-                let json_str = &line[6..]; // Remove "data: " prefix
-                if let Ok(json_value) = serde_json::from_str::<Value>(json_str) {
-                    if let Some(content) = json_value["choices"][0]["delta"]["content"].as_str() {
-                        command.push_str(content);
-                        spinner.update_text(&command);
-                    }
-                }
-            }
-        }
+        process_stream_buffer(
+            &mut buffer,
+            &chunk_str,
+            &mut command,
+            &spinner,
+            |json_value| json_value["choices"][0]["delta"]["content"].as_str(),
+        )
+        .await;
     }
 
     Ok(command.trim().to_string())
@@ -146,29 +134,47 @@ async fn generate_with_claude_stream(
     while let Some(chunk) = stream.next().await {
         let chunk = chunk?;
         let chunk_str = String::from_utf8_lossy(&chunk);
-        buffer.push_str(&chunk_str);
 
-        let mut lines_to_process = Vec::new();
-        while let Some(line_end) = buffer.find('\n') {
-            let line = buffer[..line_end].trim().to_string();
-            lines_to_process.push(line);
-            buffer = buffer[line_end + 1..].to_string();
-        }
+        process_stream_buffer(
+            &mut buffer,
+            &chunk_str,
+            &mut command,
+            &spinner,
+            |json_value| json_value["delta"]["text"].as_str(),
+        )
+        .await;
+    }
 
-        for line in lines_to_process {
-            if line.starts_with("data: ") && !line.contains("[DONE]") {
-                let json_str = &line[6..]; // remove "data: " prefix
-                if let Ok(json_value) = serde_json::from_str::<Value>(json_str) {
-                    if let Some(content) = json_value["delta"]["text"].as_str() {
-                        command.push_str(content);
-                        spinner.update_text(&command);
-                    }
+    Ok(command.trim().to_string())
+}
+
+async fn process_stream_buffer(
+    buffer: &mut String,
+    chunk_str: &str,
+    command: &mut String,
+    spinner: &StreamingSpinner,
+    extract_content: impl Fn(&Value) -> Option<&str>,
+) {
+    buffer.push_str(chunk_str);
+
+    let mut lines_to_process = Vec::new();
+    while let Some(line_end) = buffer.find('\n') {
+        let line = buffer[..line_end].trim().to_string();
+        lines_to_process.push(line);
+        *buffer = buffer[line_end + 1..].to_string();
+    }
+
+    for line in lines_to_process {
+        if line.starts_with("data: ") && !line.contains("[DONE]") {
+            let json_str = &line[6..]; // remove "data: " prefix
+            if let Ok(json_value) = serde_json::from_str::<Value>(json_str) {
+                if let Some(content) = extract_content(&json_value) {
+                    command.push_str(content);
+                    spinner.update_text(command);
                 }
             }
         }
     }
-
-    Ok(command.trim().to_string())
 }
 
 async fn get_system_context() -> Result<String> {
