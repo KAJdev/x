@@ -1,0 +1,28 @@
+[package]
+name = "x"
+version = "0.1.0"
+edition = "2024"
+description = "AI-powered CLI assistant that generates and executes shell commands from natural language"
+authors = ["zeke <hello@kaj.gg>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/kajdev/x"
+keywords = ["cli", "ai", "assistant", "shell", "automation"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "stream"] }
+futures-util = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dirs = "5.0"
+console = "0.15"
+indicatif = "0.17"
+dialoguer = "0.11"
+anyhow = "1.0"
+toml = "0.8"
+spinners = "4.1"
+crossterm = "0.27"
+term_size = "0.3.2"
