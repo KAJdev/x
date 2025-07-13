@@ -2,10 +2,10 @@
 
 Force a language model type your bash commands for you
 
-- 🎯 **Context-Aware**: considers your current shell, OS, and environment because i write good software
-- 🔒 **Safe**: always shows confirmation before executing commands, dont you even worry
-- ⚙️ **Configurable**: support for multiple LLM providers because its cool like that
-- 🚀 **Blazingly Fast**: i just like the crab tbh
+- considers your current shell, OS, and environment</sub>
+- always shows confirmation before executing commands
+- support for multiple LLM providers because its cool like that
+- rust is really fast blah blah
 
 ## Installation
 
@@ -50,21 +50,17 @@ Use natural language to describe what you want to do:
 
 ```bash
 # file operations
-x create a new directory called my-project and cd into it, slave
+x hey machine slave! create a new directory called my-project and cd into it
 
 # git operations
-x create a new git repository and make initial commit, dont make me wait...
+x create a new git repository and make initial commit because im lazy
 
 # system management
-x HEY YOU! check disk usage for all mounted drives!!
+x if you really loved me youd check disk usage for all mounted drives
 
 # package management
 x install docker on ubuntu or else
 ```
-
-## How it Works
-
-Do you really care? You are here because you are lazy.
 
 ## Configuration
 
