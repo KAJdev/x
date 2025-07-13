@@ -3,7 +3,6 @@ use clap::Parser;
 #[derive(Parser)]
 #[command(name = "x")]
 #[command(about = "A CLI tool that uses LLM to generate and execute commands")]
-#[command(version = "0.1.0")]
 pub struct Cli {
     /// Configure the LLM provider and API key
     #[arg(long)]
