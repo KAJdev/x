@@ -1,5 +1,5 @@
 use crate::config::{Config, LlmProvider};
-use crate::prompts::{generate_command_prompt, generate_system_context};
+use crate::prompts::{generate_system_context, generate_system_prompt};
 use crate::spinner::StreamingSpinner;
 use anyhow::Result;
 use futures_util::StreamExt;
@@ -15,7 +15,7 @@ pub async fn generate_command(config: &Config, user_input: &[String]) -> Result<
     spinner.update_text("");
 
     let system_context = get_system_context().await?;
-    let system_prompt = generate_command_prompt(&system_context);
+    let system_prompt = generate_system_prompt(&system_context);
 
     let command = match config.provider {
         LlmProvider::OpenAI => {
