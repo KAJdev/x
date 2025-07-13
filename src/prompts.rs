@@ -18,21 +18,14 @@ Home: {home}
 Current directory: {cwd}
 OS: {os}";
 
-pub fn generate_command_prompt(system_context: &str) -> String {
-    SYSTEM_PROMPT_TEMPLATE
-        .replace("{system_context}", system_context)
+pub fn generate_system_prompt(system_context: &str) -> String {
+    SYSTEM_PROMPT_TEMPLATE.replace("{system_context}", system_context)
 }
 
-
-pub fn generate_system_context(
-    shell: &str,
-    home: &str,
-    cwd: &str,
-    os: &str,
-) -> String {
+pub fn generate_system_context(shell: &str, home: &str, cwd: &str, os: &str) -> String {
     SYSTEM_CONTEXT_TEMPLATE
         .replace("{shell}", shell)
-        .replace("{home}",  home)
-        .replace("{cwd}",   cwd)
-        .replace("{os}",    os)
+        .replace("{home}", home)
+        .replace("{cwd}", cwd)
+        .replace("{os}", os)
 }
